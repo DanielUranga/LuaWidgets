@@ -1,4 +1,4 @@
---[[	
+--[[
 	BitmapFonts for Ginga
 	Copyright (C) 2011, PLADEMA
 
@@ -56,7 +56,7 @@ function BitmapText:new (text, font, backgroundPath, xOff, yOff)
 		temp.backgroundPath = backgroundPath;
 		temp.image = canvas:new( backgroundPath );
 	end
-	
+
     return temp;
 end
 
@@ -80,8 +80,16 @@ function BitmapText:compile(background)
 	-- For each char...
 	for char in self.text:gmatch"." do
 		-- Add the image that corresponds to the char
-		self.image:compose( (actualCharNumber - 1) * self.charWidth + self.xOffset, self.yOffset, self.font:getCharImage(char) );
-		actualCharNumber = actualCharNumber + 1;		
+		self.image:compose(
+			(actualCharNumber - 1) * self.charWidth + self.xOffset,
+			self.yOffset,
+			self.font:getCharImage(),
+			self.font:getCharLeft(char),
+			self.font:getCharTop(char),
+			self.font:getCharWidth(),
+			self.font:getCharHeight()
+		);
+		actualCharNumber = actualCharNumber + 1;
 	end
 
 	self.changes = 0
@@ -119,7 +127,7 @@ function BitmapText:centerText(background)
 	if (background) then
 		local w, h = background:attrSize()
 		self.xOffset = (w / 2) - (#self.text * self.charWidth) / 2
-		self.yOffset = (h / 2) - self.charHeight / 2	
+		self.yOffset = (h / 2) - self.charHeight / 2
 	elseif ( not self.backgroundPath ) then
 		self.xOffset = 0; self.yOffset = 0
 	else

@@ -78,16 +78,27 @@ end
 
 ---This function transforms an image into a bitmap font
 --@return A canvas containing the image that represents the character
-function BitmapFont:getCharImage(character)
-	local data = self.charTable[ character ];
+function BitmapFont:getCharImage()
+	--local data = self.charTable[ character ];
 
-	local charImg = canvas:new(self.charWidth, self.charHeight);
-	charImg:compose(0, 0, self.image, data.left, data.top, self.charWidth, self.charHeight);
-	return charImg;
-
+	--print("crop");
 	--self.image:attrCrop ( data.left, data.top, self.charWidth, self.charHeight );
-	--return self.image;
+	return self.image;
 
+	--local charImg = canvas:new(self.charWidth, self.charHeight);
+	--charImg:compose(0, 0, self.image, data.left, data.top, self.charWidth, self.charHeight);
+	--return charImg;
+
+end
+
+function BitmapFont:getCharLeft(character)
+	local data = self.charTable[ character ];
+	return data.left;
+end
+
+function BitmapFont:getCharTop(character)
+	local data = self.charTable[ character ];
+	return data.top;
 end
 
 ---This function returns the char width

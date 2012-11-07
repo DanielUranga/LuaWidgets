@@ -39,17 +39,22 @@ end
 --@param guiScene a guiScene that will listen to the events
 function SceneManager:addGuiScene (guiScene)
 	table.insert(self.guis, guiScene);
+	print("::: Agregada escena " .. tostring(guiScene))
 --	print('::: Listener agregado. Cantidad actual: ' .. #self.guis);
 end
 
 ---Sets a scene as "the current" scene
 --@param guiScene the only scene that will be enabled after calling this method
 function SceneManager:setCurrentScene (guiScene)
-	habiaUnaEscena = false
+	local habiaUnaEscena = false
 	for _,gui in ipairs(self.guis) do
+		if gui:getEnabled() then
+			print("La escena vieja es " .. tostring(gui))
+		end
 		if gui==guiScene then
 			gui:setEnabled(true)
 			habiaUnaEscena = true
+			print("La escena nueva es " .. tostring(gui))
 		else
 			gui:setEnabled(false)
 		end
@@ -71,8 +76,9 @@ function SceneManager:checkEvents (evt)
 --	print('::: Procesando eventos. Guis registrados: ' .. #self.guis);
 	for _,gui in ipairs(self.guis) do
 		if gui:getEnabled() then
-			print('::: La gui va a procesar un evento');
+			print('::: La gui ' .. tostring(gui) ..' va a procesar un evento');
 			gui:processEvent(evt);
+			break;
 		end
 	end
 

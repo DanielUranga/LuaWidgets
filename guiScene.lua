@@ -21,42 +21,49 @@ along with LuaWidgets.  If not, see <http://www.gnu.org/licenses/>.
 module ('luawidgets.guiScene', package.seeall)
 local componentGroup = require 'luawidgets.componentGroup';
 
-GuiScene = {
-	x = 0,
-	y = 0,
-	w = 0,
-	h = 0,
-	enabled = true,
-	visible = true,
-	background = nil,
-	backgroundPath = nil,
-	buttonListeners = {};
-}
-Class_Metatable = { __index = GuiScene }
+GuiScene = {}
+	--x = 0,
+	--y = 0,
+	--w = 0,
+	--h = 0,
+	--enabled = true,
+	--visible = true,
+	--background = nil,
+	--backgroundPath = nil,
+	--buttonListeners = {};
+--}
+--Class_Metatable = { __index = GuiScene }
+GuiScene.__index = GuiScene
 
 ---GuiScene constructor.
 --@param x x position of the GuiScene
 --@param y y position of the GuiScene
 --@param w w Width of the GuiScene
 --@param h h Height of the GuiScene
-function GuiScene:new (x, y, w, h)
+function GuiScene.new (x, y, w, h)
 	local temp = {};
-	setmetatable ( temp, Class_Metatable );
+	--setmetatable ( temp, Class_Metatable );
+	setmetatable ( temp, GuiScene );
 
-	temp.x = x;
-	temp.y = y;
-	temp.h = h;
-	temp.w = w;
+	temp.x = x
+	temp.y = y
+	temp.h = h
+	temp.w = w
+	temp.enabled = true
+	temp.visible = true
+	temp.background = nil
+	temp.backgroundPath = nil
+	temp.buttonListeners = {}
 
 	--Those varialbes contains the active components list and tab order.
         --It can be changed to navigate over different contexts of tabOrder, as CheckButton grups
 
-	temp.rootComponentGroup = componentGroup.ComponentGroup:new(x, y, w, h);
-	temp.componentGroupStack = {};
-	temp.activeComponentGroup = temp.rootComponentGroup;
+	temp.rootComponentGroup = componentGroup.ComponentGroup:new(x, y, w, h)
+	temp.componentGroupStack = {}
+	temp.activeComponentGroup = temp.rootComponentGroup
 	--temp.activeTabOrder = components:getTabOrder();
 
-	print (temp.buttonListeners)
+	print ("el nuevo va a ser: " .. tostring(temp))
 
     return temp;
 end
@@ -156,13 +163,16 @@ function GuiScene:addButtonAction(button, action)
 	-- "GREEN"	=	"F2"
 	-- "YELLOW" =	"F3"
 	-- "BLUE"	=	"F4"
-	if(button=="RED")			then	self.buttonListeners["F1"]=action
-	elseif(button=="GREEN")		then	self.buttonListeners["F2"]=action
-	elseif(button=="YELLOW")	then	self.buttonListeners["F3"]=action
-	elseif(button=="BLUE")		then	self.buttonListeners["F4"]=action
+	if(button=="RED")			then	button = "F1" --self.buttonListeners["F1"]=action
+	elseif(button=="GREEN")		then	button = "F2" --self.buttonListeners["F2"]=action
+	elseif(button=="YELLOW")	then	button = "F3" --self.buttonListeners["F3"]=action
+	elseif(button=="BLUE")		then	button = "F4" --self.buttonListeners["F4"]=action
 	end
 
 	self.buttonListeners[button] = action;
+
+	print("a la escena " .. tostring(self) .. "le agrego la accion " .. tostring(action))
+
 end
 
 ---Returns the image background
