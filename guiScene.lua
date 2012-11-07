@@ -40,7 +40,7 @@ GuiScene.__index = GuiScene
 --@param y y position of the GuiScene
 --@param w w Width of the GuiScene
 --@param h h Height of the GuiScene
-function GuiScene.new (x, y, w, h)
+function GuiScene:new (x, y, w, h)
 	local temp = {};
 	--setmetatable ( temp, Class_Metatable );
 	setmetatable ( temp, GuiScene );
